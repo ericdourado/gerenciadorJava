@@ -4,6 +4,8 @@
  */
 package br.com.alura.gerenciador.servelet;
 
+import java.util.Date;
+
 /**
  *
  * @author Eric
@@ -11,6 +13,15 @@ package br.com.alura.gerenciador.servelet;
 public class Empresa {
     private int id;
     private String nome;
+    private Date data = new Date();
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
 
     public int getId() {
         return id;

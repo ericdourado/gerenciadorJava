@@ -5,11 +5,9 @@
 package br.com.alura.gerenciador.servelet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,16 +18,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Eric
  */
-@WebServlet(name = "NovaEmpresaServlet", urlPatterns = {"/nova-empresa"})
-public class NovaEmpresaServlet extends HttpServlet {
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet(name = "AlteraEmpresaServlet", urlPatterns = {"/alterar-empresa"})
+public class AlteraEmpresaServlet extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         
-        response.setContentType("text/html;charset=UTF-8");
-        /* TODO output your page here. You may use following sample code. */
-        PrintWriter out = response.getWriter();
         String nomeEmpresa = request.getParameter("name");
         String data = request.getParameter("dtCadastro");
+        int id = Integer.parseInt(request.getParameter("id"));
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataAbertura = null;
                 
@@ -39,15 +37,12 @@ public class NovaEmpresaServlet extends HttpServlet {
             throw new ServletException(ex);
         }
         
-        Empresa empresa = new Empresa();
-        empresa.setNome(nomeEmpresa);        
-        empresa.setData(dataAbertura);
         Banco banco = new Banco();
-        banco.adiciona(empresa);    
-        
-        request.setAttribute("empresa", empresa);
+        Empresa empresa = banco.buscarEmpresa(id);
+        empresa.setNome(nomeEmpresa);
+        empresa.setData(dataAbertura);
         
         response.sendRedirect("listar-empresas");
-
+        
     }
 }
